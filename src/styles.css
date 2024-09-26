@@ -89,9 +89,9 @@ main {
   position: relative;
   top: -38px;
 }
-.weather-forecast-day {
+.weather-forecast {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 30px;
 }
 .weather-forecast-date {
