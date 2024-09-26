@@ -56,7 +56,33 @@ function formatDate(date) {
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
 
-let currentDateELement = document.querySelector("#current-date");
-let currentDate = new Date();
+//let currentDateELement = document.querySelector("#current-date");
+//let currentDate = new Date();
 
-currentDateELement.innerHTML = formatDate(currentDate);
+//currentDateELement.innerHTML = formatDate(currentDate);
+
+function displayForecast() {
+  let days = ["Tue", "Wed", "Thur", "Fri", "Sat"];
+  let forecastHtml = "";
+
+  days.forEach(function (forecastday) {
+    forecastHtml =
+      forecastHtml +
+      `
+        <div class="weather-forecast-day">
+         <div class="weather-forecast-date">${forecastday}</div>
+         <div class="weather-forecast-icon">🌧</div>
+         <div class="weather-forecast-temperatures">
+         <div class="weather-forecast-temperature">
+          <strong>15&deg;</strong>
+         </div>
+         <div class="weather-forecast-temperature">9&deg;</div>
+        </div>
+        `;
+  });
+
+  let forecastElement = document.querySelector("#forecast");
+  forecastElement.innerHTML = forecastHtml;
+}
+
+displayForecast();
