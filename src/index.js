@@ -16,23 +16,9 @@ function displayTemperature(response) {
   windSpeedElement.innerHTML = `${response.data.wind.speed}km/h`;
   temperatureElement.innerHTML = Math.round(temperature);
   iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="current-temperature-icon" />`;
+
+  getForecast();
 }
-
-function search(city) {
-  let apiKey = "b2a5adcct04b33178913oc335f405433";
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
-
-  axios.get(apiUrl).then(displayTemperature);
-}
-function handleSearchSubmit(event) {
-  event.preventDefault();
-  let searchInput = document.querySelector("#search-input");
-
-  search(searchInput.value);
-}
-
-let searchFormElement = document.querySelector("#search-form");
-searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 function formatDate(date) {
   let minutes = date.getMinutes();
@@ -53,15 +39,29 @@ function formatDate(date) {
   return `${day} ${hours}:${minutes}`;
 }
 
-let searchForm = document.querySelector("#search-form");
-searchForm.addEventListener("submit", search);
+function search(city) {
+  let apiKey = "c73bde3obcbtea944679949f5e0620ff";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
 
-//let currentDateELement = document.querySelector("#current-date");
-//let currentDate = new Date();
+  axios.get(apiUrl).then(displayTemperature);
+}
 
-//currentDateELement.innerHTML = formatDate(currentDate);
+function handleSearchSubmit(event) {
+  event.preventDefault();
+  let searchInput = document.querySelector("#search-input");
+
+  search(searchInput.value);
+}
+
+function getForecast(city) {
+  let apiKey = "c73bde3obcbtea944679949f5e0620ff";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+
+  axios(apiUrl).then(displayForecast);
+}
 
 function displayForecast() {
+  // console.log(response.data);
   let days = ["Tue", "Wed", "Thur", "Fri", "Sat"];
   let forecastHtml = "";
 
@@ -69,15 +69,14 @@ function displayForecast() {
     forecastHtml =
       forecastHtml +
       `
-        <div class="weather-forecast-day">
-          <div class="weather-forecast-date">${day}</div>
-          <div class="weather-forecast-icon">🌧</div>
-          <div class="weather-forecast-temperatures">
-          <div class="weather-forecast-temperature">
-           <strong>15&deg;</strong>
+          <div class="weather-forecast-day">
+            <div class="weather-forecast-date">${day}</div>
+            <div class="weather-forecast-icon">🌩</div>
+            <div class="weather-forecast-temperatures">
+              <div class="weather-forecast-temperature"><strong>15&deg;</strong></div>
+              <div class="weather-forecast-temperature">9&deg;</div>
+            </div>
           </div>
-          <div class="weather-forecast-temperature">9&deg;</div>
-        </div>
       `;
   });
 
@@ -85,4 +84,6 @@ function displayForecast() {
   forecastElement.innerHTML = forecastHtml;
 }
 
-displayForecast();
+let searchFormElement = document.querySelector("#search-form");
+searchFormElement.addEventListener("submit", handleSearchSubmit);
+//search("paris");
